@@ -1,25 +1,97 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" ng-app="UploadModule" flow-init>
 <head>
-	<title>Java Web Starter Application</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="stylesheet" href="style.css" />
+<meta charset="utf-8">
+
+<title>Admin de Archivos</title>
+
+<!-- Load CSS-->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/animations.css" rel="stylesheet" type="text/css">
+<link href="css/starter-template.css" rel="stylesheet">
+
+<!-- Load AngularJS -->
+<script src="bower_components/angular/angular.min.js"></script>
+<script src="bower_components/ng-flow/dist/ng-flow-standalone.js"></script>
+
+<!-- Load the application wide JS, such as route definitions -->
+<script src="js/upload.js"></script>
+
+
 </head>
-<body>
-	<table>
-		<tr>
-			<td style='width: 30%;'>
-				<img class = "newappIcon" src='images/newapp-icon.png'>
-			</td>
-			<td>
-				<!-- The "Hello World!" message comes from /SimpleServlet -->
-				<h1 id = "message"></h1>
-				
-				<p class='description'></p> Thanks for creating a <span class="blue">Liberty for Java Starter Application</span>.
-			</td>
-		</tr>
-	</table>
-	<!-- Call SimpleServlet to get the "Hello World" message  -->
-	<script type="text/javascript" src="index.js"></script>
+<body flow-prevent-drop
+	flow-drag-enter="style={border: '5px solid green'}"
+	flow-drag-leave="style={}" ng-style="style">
+	<div class="container" >
+		<h1>File Manager v 0.3</h1>
+		<hr class="soften" />
+
+		<div class="row">
+			<div class="span6">
+				<h2>Inputs:</h2>
+
+				<input type="file" flow-btn /> <input type="file" flow-btn
+					flow-directory ng-show="$flow.supportDirectory" />
+			</div>
+			<div class="span6">
+				<div class="alert" flow-drop flow-drag-enter="class='alert-success'"
+					flow-drag-leave="class=''" ng-class="class">Drag And Drop
+					your file here</div>
+			</div>
+		</div>
+		<hr class="soften">
+
+		<h2>Transfers:</h2>
+
+		<p>
+			<a class="btn btn-small btn-success" ng-click="$flow.resume()">Upload</a>
+			<a class="btn btn-small btn-danger" ng-click="$flow.pause()">Pause</a>
+			<a class="btn btn-small btn-info" ng-click="$flow.cancel()">Cancel</a>
+			<span class="label label-info">Size: {{$flow.getSize()}}</span> <span
+				class="label label-info">Is Uploading:
+				{{$flow.isUploading()}}</span>
+		</p>
+		<table class="table table-hover table-bordered table-striped"
+			flow-transfers>
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Name</th>
+					<th>Size</th>
+					<th>Progress</th>
+					<th>Paused</th>
+					<th>Uploading</th>
+					<th>Completed</th>
+					<th>Settings</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="file in transfers">
+					<td>{{$index+1}}</td>
+					<td>{{file.name}}</td>
+					<td>{{file.size}}</td>
+					<td>{{file.progress()}}</td>
+					<td>{{file.paused}}</td>
+					<td>{{file.isUploading()}}</td>
+					<td>{{file.isComplete()}}</td>
+					<td>
+						<div class="btn-group" ng-controller="ButtonController as button">
+							<a class="btn btn-mini btn-warning" ng-click="file.pause()"
+								ng-hide="button.estadoPausa(file)"> Pause </a> 
+							<a class="btn btn-mini btn-warning" ng-click="file.resume()"
+								ng-show="file.paused"> Resume </a> 
+							<a class="btn btn-mini btn-danger" ng-click="file.cancel()">
+								Cancel </a> <a class="btn btn-mini btn-info" ng-click="file.retry()"
+								ng-show="file.error"> Retry </a> 
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<hr class="soften" />
+
+
+	</div>
 </body>
 </html>
