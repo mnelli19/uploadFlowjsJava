@@ -1,1 +1,8 @@
 wasdev/sample/servlet/SimpleServlet.class
+it/sogei/bluemix/servlet/ObStorServlet.class
+it/sogei/ngflow/upload/FlowInfo$flowChunkNumber.class
+it/sogei/ngflow/upload/FlowInfoStorage.class
+it/sogei/ngflow/upload/FlowInfo.class
+it/sogei/ngflow/servlet/UploadServlet.class
+it/sogei/bluemix/servlet/ObStorServlet$PayloadClass.class
+it/sogei/ngflow/upload/HttpUtils.class
