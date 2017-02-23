@@ -1,6 +1,6 @@
 applications:
 - path: target/UploadFlowJsJava.war
-  memory: 256M
+  memory: 512M
   instances: 1
   domain: mybluemix.net
   name: upload-flowjs-java
