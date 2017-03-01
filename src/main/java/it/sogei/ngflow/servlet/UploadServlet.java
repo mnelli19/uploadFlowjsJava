@@ -69,7 +69,7 @@ public class UploadServlet extends HttpServlet {
 		response.setHeader("Access-Control-Allow-Origin",
 				"*");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
-		response.setHeader("Access-Control-Allow-Methods", "POST");
+		response.setHeader("Access-Control-Allow-Methods","POST, HEAD, GET, DELETE, PUT, OPTIONS")
 		response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
 		response.setHeader("Access-Control-Max-Age", "86400");
 
@@ -150,7 +150,7 @@ public class UploadServlet extends HttpServlet {
 
 		response.setHeader("Access-Control-Allow-Origin",
 				"*");
-		response.setHeader("Access-Control-Allow-Methods", "GET");
+		response.setHeader("Access-Control-Allow-Methods","POST, HEAD, GET, DELETE, PUT, OPTIONS")
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		response.setHeader("Access-Control-Allow-Headers", "Content-Type");
 		response.setHeader("Access-Control-Max-Age", "86400");
