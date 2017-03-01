@@ -48,7 +48,7 @@ public class UploadServlet extends HttpServlet {
 			"https://26.2.169.56", 
 			"http://localhost", 
 			"https://mydomain1.com", 
-			"http://upload-frontapp.mybluemix.net",
+			"https://upload-frontapp.mybluemix.net",
 			"https://upload-flowjs-java.mybluemix.net"
 			);
 
@@ -70,7 +70,7 @@ public class UploadServlet extends HttpServlet {
 				"*");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		response.setHeader("Access-Control-Allow-Methods", "POST");
-		response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+		response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
 		response.setHeader("Access-Control-Max-Age", "86400");
 
 			
@@ -149,7 +149,7 @@ public class UploadServlet extends HttpServlet {
 		response.setHeader("Expires", "-1");
 
 		response.setHeader("Access-Control-Allow-Origin",
-				"*n");
+				"*");
 		response.setHeader("Access-Control-Allow-Methods", "GET");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		response.setHeader("Access-Control-Allow-Headers", "Content-Type");
