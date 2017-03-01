@@ -48,6 +48,7 @@ public class UploadServlet extends HttpServlet {
 			"https://26.2.169.56", 
 			"http://localhost", 
 			"https://mydomain1.com", 
+			"http://upload-frontapp.mybluemix.net",
 			"https://upload-flowjs-java.mybluemix.net"
 			);
 
