@@ -104,14 +104,14 @@ public class UploadServlet extends HttpServlet {
 		
 		
 		response.setContentType("application/json");
-		response.setHeader("Cache-control", "no-cache, no-store");
-		response.setHeader("Pragma", "no-cache");
-		response.setHeader("Expires", "-1");
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Credentials", "true");
-		response.setHeader("Access-Control-Allow-Methods","POST, HEAD, GET, DELETE, PUT, OPTIONS");
-		response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
-		response.setHeader("Access-Control-Max-Age", "86400");
+		response.addHeader("Cache-control", "no-cache, no-store");
+		response.addHeader("Pragma", "no-cache");
+		response.addHeader("Expires", "-1");
+		response.addHeader("Access-Control-Allow-Origin", "*");
+		response.addHeader("Access-Control-Allow-Credentials", "true");
+		response.addHeader("Access-Control-Allow-Methods","POST, HEAD, GET, DELETE, PUT, OPTIONS");
+		response.addHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+		response.addHeader("Access-Control-Max-Age", "86400");
 		
 		if (archivoFinal != null) { // Check if all chunks uploaded, and
 			// change filename
@@ -167,14 +167,14 @@ public class UploadServlet extends HttpServlet {
 		}
 		
 		response.setContentType("application/json");
-		response.setHeader("Cache-control", "no-cache, no-store");
-		response.setHeader("Pragma", "no-cache");
-		response.setHeader("Expires", "-1");
-		response.setHeader("Access-Control-Allow-Origin","*");
-		response.setHeader("Access-Control-Allow-Methods","POST, HEAD, GET, DELETE, PUT, OPTIONS");
-		response.setHeader("Access-Control-Allow-Credentials", "true");
-		response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-		response.setHeader("Access-Control-Max-Age", "86400");
+		response.addHeader("Cache-control", "no-cache, no-store");
+		response.addHeader("Pragma", "no-cache");
+		response.addHeader("Expires", "-1");
+		response.addHeader("Access-Control-Allow-Origin","*");
+		response.addHeader("Access-Control-Allow-Methods","POST, HEAD, GET, DELETE, PUT, OPTIONS");
+		response.addHeader("Access-Control-Allow-Credentials", "true");
+		response.addHeader("Access-Control-Allow-Headers", "Content-Type");
+		response.addHeader("Access-Control-Max-Age", "86400");
 		out.close();
 	}
 
