@@ -47,7 +47,7 @@ public class UploadServlet extends HttpServlet {
 			"http://26.2.234.112",
 			"https://26.2.169.56", 
 			"http://localhost", 
-			"https://mydomain1.com", 
+			"https://mybluemix.net", 
 			"https://upload-frontapp.mybluemix.net",
 			"https://upload-flowjs-java.mybluemix.net"
 			);
@@ -107,7 +107,7 @@ public class UploadServlet extends HttpServlet {
 		response.setHeader("Cache-control", "no-cache, no-store");
 		response.setHeader("Pragma", "no-cache");
 		response.setHeader("Expires", "-1");
-		response.setHeader("Access-Control-Allow-Origin","*");
+		response.setHeader("Access-Control-Allow-Origin", authorizedUrl);
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		response.setHeader("Access-Control-Allow-Methods","POST, HEAD, GET, DELETE, PUT, OPTIONS")
 		response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
@@ -142,19 +142,7 @@ public class UploadServlet extends HttpServlet {
 
 		System.out.println(">> requestURL: "+request.getRequestURL());
 		PrintWriter out = response.getWriter();
-		response.setContentType("application/json");
-		response.setHeader("Cache-control", "no-cache, no-store");
-		response.setHeader("Pragma", "no-cache");
-		response.setHeader("Expires", "-1");
 
-		response.setHeader("Access-Control-Allow-Origin",
-				"*");
-		response.setHeader("Access-Control-Allow-Methods","POST, HEAD, GET, DELETE, PUT, OPTIONS")
-		response.setHeader("Access-Control-Allow-Credentials", "true");
-		response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-		response.setHeader("Access-Control-Max-Age", "86400");
-
-		
 		FlowInfo info = getFlowInfo(request);
 		
 		Object fcn = new FlowInfo.flowChunkNumber(flowChunkNumber);
@@ -177,7 +165,16 @@ public class UploadServlet extends HttpServlet {
 			System.out.println("Chunk Not uploaded");
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		}
-
+		
+		response.setContentType("application/json");
+		response.setHeader("Cache-control", "no-cache, no-store");
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Expires", "-1");
+		response.setHeader("Access-Control-Allow-Origin",authorizedUrl);
+		response.setHeader("Access-Control-Allow-Methods","POST, HEAD, GET, DELETE, PUT, OPTIONS")
+		response.setHeader("Access-Control-Allow-Credentials", "true");
+		response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+		response.setHeader("Access-Control-Max-Age", "86400");
 		out.close();
 	}
 
