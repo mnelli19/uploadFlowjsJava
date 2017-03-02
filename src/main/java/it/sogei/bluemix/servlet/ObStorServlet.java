@@ -79,7 +79,16 @@ public class ObStorServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ObjectStorageService objectStorage = authenticateAndGetObjectStorageService();
-
+		
+		response.setContentType("application/json");
+		response.setHeader("Cache-control", "no-cache, no-store");
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Expires", "-1");
+		response.setHeader("Access-Control-Allow-Origin","*");
+		response.setHeader("Access-Control-Allow-Credentials", "true");
+		response.setHeader("Access-Control-Allow-Methods","POST, HEAD, GET, DELETE, PUT, OPTIONS")
+		response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+		response.setHeader("Access-Control-Max-Age", "86400");
 		System.out.println(" --- Retrieving file from ObjectStorage...");
 
 		String containerName = request.getParameter("container");
@@ -121,6 +130,16 @@ public class ObStorServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ObjectStorageService objectStorage = authenticateAndGetObjectStorageService();
 
+		response.setContentType("application/json");
+		response.setHeader("Cache-control", "no-cache, no-store");
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Expires", "-1");
+		response.setHeader("Access-Control-Allow-Origin","*");
+		response.setHeader("Access-Control-Allow-Credentials", "true");
+		response.setHeader("Access-Control-Allow-Methods","POST, HEAD, GET, DELETE, PUT, OPTIONS")
+		response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+		response.setHeader("Access-Control-Max-Age", "86400");
+		
 		System.out.println("---- Storing file in ObjectStorage...");
 
 		String containerName = (String)request.getAttribute("container");
