@@ -80,7 +80,7 @@ public class ObStorServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ObjectStorageService objectStorage = authenticateAndGetObjectStorageService();
 		
-		response.setContentType("application/json");
+		//response.setContentType("application/json");
 		response.setHeader("Cache-control", "no-cache, no-store");
 		response.setHeader("Pragma", "no-cache");
 		response.setHeader("Expires", "-1");
@@ -130,7 +130,7 @@ public class ObStorServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ObjectStorageService objectStorage = authenticateAndGetObjectStorageService();
 
-		response.setContentType("application/json");
+		//response.setContentType("application/json");
 		response.setHeader("Cache-control", "no-cache, no-store");
 		response.setHeader("Pragma", "no-cache");
 		response.setHeader("Expires", "-1");
