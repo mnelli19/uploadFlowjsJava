@@ -56,6 +56,7 @@ public class UploadServlet extends HttpServlet {
         throws IOException {
     //The following are CORS headers. Max age informs the 
     //browser to keep the results of this call for 1 day.
+	resp.setHeader("Cache-control", "no-cache, no-store");
     resp.setHeader("Access-Control-Allow-Origin", "http://upload-frontapp.mybluemix.net");
     resp.setHeader("Access-Control-Allow-Credentials", "true");
     resp.setHeader("Access-Control-Allow-Methods", "GET, POST");
@@ -67,7 +68,7 @@ public class UploadServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-response.setHeader("Cache-control", "no-cache, no-store");
+		response.setHeader("Cache-control", "no-cache, no-store");
 		response.setHeader("Pragma", "no-cache");
 		response.setHeader("Expires", "-1");
 		response.setHeader("Access-Control-Allow-Origin", "http://upload-frontapp.mybluemix.net");
@@ -75,7 +76,7 @@ response.setHeader("Cache-control", "no-cache, no-store");
 		response.setHeader("Access-Control-Allow-Methods","POST, HEAD, GET, DELETE, PUT, OPTIONS");
 		response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
 		response.setHeader("Access-Control-Max-Age", "86400");
-		System.out.println(">> Do Post v 0.3");
+		System.out.println(">> Do Post v 0.4");
 		
 		System.out.println(">> requestURL: " +request.getRequestURL());
 
@@ -149,6 +150,7 @@ response.setHeader("Cache-control", "no-cache, no-store");
 		
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		
 		response.setContentType("application/json");
 		response.setHeader("Cache-control", "no-cache, no-store");
 		response.setHeader("Pragma", "no-cache");
