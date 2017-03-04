@@ -99,8 +99,8 @@ public class UploadServlet extends HttpServlet {
 		byte[] bytes = new byte[1024 * 100];
 		
 		RequestDispatcher rd = request.getRequestDispatcher("objectStorage");
-		request.setAttribute("container", "mnelli-container");
-		request.setAttribute("file", info.flowIdentifier+"_#_"+flowChunkNumber+".temp");
+		request.setAttribute("container", request.getAttribute("user")+"-container");
+		request.setAttribute("file", info.flowIdentifier+"."+flowChunkNumber);
 		
 		System.out.println(">>> chiamata servlet object storage");
 		rd.forward(request,response);
