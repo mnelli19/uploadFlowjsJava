@@ -99,7 +99,7 @@ public class UploadServlet extends HttpServlet {
 		byte[] bytes = new byte[1024 * 100];
 		
 		RequestDispatcher rd = request.getRequestDispatcher("objectStorage");
-		request.setAttribute("container", "FlowJsJava");
+		request.setAttribute("container", "mnelli-container");
 		request.setAttribute("file", info.flowIdentifier+"_#_"+flowChunkNumber+".temp");
 		
 		System.out.println(">>> chiamata servlet object storage");

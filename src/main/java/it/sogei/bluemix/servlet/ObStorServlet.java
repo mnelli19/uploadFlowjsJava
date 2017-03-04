@@ -149,21 +149,30 @@ public class ObStorServlet extends HttpServlet {
 		System.out.println(">> cantianerName: "+containerName);
 		System.out.println(">> file : " +fileName);
 		
-		if(containerName == null || fileName == null){ //No file was specified to be found, or container name is missing
+		if(containerName == null || fileName == null){
+			//No file was specified to be found, or container name is missing
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			System.out.println("File not found.");
 			return;
+		}	
+		
+		if (objectStorage.containers().create(containerName).isSuccess()) {
+			final InputStream fileStream = request.getInputStream();
+			System.out.println(">> fileStream : " +fileStream);
+			Payload<InputStream> payload = new PayloadClass(fileStream);
+			
+			objectStorage.objects().put(containerName, fileName, payload);
+			
+			System.out.println(">> Successfully stored file in ObjectStorage!");
+		
 		}
-
-		final InputStream fileStream = request.getInputStream();
-		System.out.println(">> fileStream : " +fileStream);
-		Payload<InputStream> payload = new PayloadClass(fileStream);
-		
-		objectStorage.objects().put(containerName, fileName, payload);
-		
-		System.out.println(">> Successfully stored file in ObjectStorage!");
+		else{
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			System.out.println("Errore nella creazione del container: "+containerName );
+			return;
+		}
 	}
-
+	
 	private class PayloadClass implements Payload<InputStream> {
 		private InputStream stream = null;
 
@@ -195,6 +204,9 @@ public class ObStorServlet extends HttpServlet {
 		}
 
 	}
+
+
+	
 
 	@Override
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
