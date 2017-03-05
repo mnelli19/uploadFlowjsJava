@@ -82,7 +82,7 @@ public class UploadServlet extends HttpServlet {
 		response.setHeader("Cache-control", "no-cache, no-store");
 		response.setHeader("Pragma", "no-cache");
 		response.setHeader("Expires", "-1");
-		response.setHeader("Access-Control-Allow-Origin", "http://upload-frontapp.mybluemix.net");
+		response.setHeader("Access-Control-Allow-Origin", "https://upload-frontapp.mybluemix.net");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		response.setHeader("Access-Control-Allow-Methods","POST, HEAD, GET, DELETE, PUT, OPTIONS");
 		response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
@@ -204,7 +204,7 @@ public class UploadServlet extends HttpServlet {
 		response.setHeader("Cache-control", "no-cache, no-store");
 		response.setHeader("Pragma", "no-cache");
 		response.setHeader("Expires", "-1");
-		response.setHeader("Access-Control-Allow-Origin","http://upload-frontapp.mybluemix.net");
+		response.setHeader("Access-Control-Allow-Origin","https://upload-frontapp.mybluemix.net");
 		response.setHeader("Access-Control-Allow-Methods","POST, HEAD, GET, DELETE, PUT, OPTIONS");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		response.setHeader("Access-Control-Allow-Headers", "Content-Type");
