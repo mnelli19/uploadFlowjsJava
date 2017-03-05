@@ -62,7 +62,7 @@ public class UploadServlet extends HttpServlet {
 			"https://upload-frontapp.mybluemix.net",
 			"https://upload-flowjs-java.mybluemix.net"
 			);
-	
+	 
 	public void doOptions(HttpServletRequest req, HttpServletResponse resp)
         throws IOException {
     //The following are CORS headers. Max age informs the 
