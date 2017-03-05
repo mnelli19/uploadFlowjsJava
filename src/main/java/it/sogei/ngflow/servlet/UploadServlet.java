@@ -91,7 +91,8 @@ public class UploadServlet extends HttpServlet {
 		System.out.println(">> Do Post v 0.5");
 		
 		System.out.println(">> requestURL: " +request.getRequestURL());
-
+		System.out.println(">> user: " +request.getParameter("user"));
+		String user = request.getParameter("user");
 		PrintWriter out = response.getWriter();
 		
 		int flowChunkNumber = getflowChunkNumber(request);
@@ -101,11 +102,11 @@ public class UploadServlet extends HttpServlet {
 
 		// Save to file
 		final InputStream is = request.getInputStream();
-		long readed = 0;
-		long content_length = request.getContentLength();
-		byte[] bytes = new byte[1024 * 100];
+//		long readed = 0;
+//		long content_length = request.getContentLength();
+//		byte[] bytes = new byte[1024 * 100];
 		
-		RequestDispatcher rd = request.getRequestDispatcher("objectStorage");
+//		RequestDispatcher rd = request.getRequestDispatcher("objectStorage");
 //		request.setAttribute("container", info.flowIdentifier+"-container");
 //		request.setAttribute("file", info.flowIdentifier+"."+flowChunkNumber);
 //		
@@ -128,7 +129,7 @@ public class UploadServlet extends HttpServlet {
 		
 		System.out.println("---- Storing file in ObjectStorage...");
 
-		String containerName = info.flowIdentifier+"-container";
+		String containerName = user+"-container";
 
 		String fileName = info.flowIdentifier+"."+flowChunkNumber;
 		
