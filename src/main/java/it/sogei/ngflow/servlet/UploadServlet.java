@@ -1,19 +1,23 @@
 package it.sogei.ngflow.servlet;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.io.RandomAccessFile;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.openstack4j.api.OSClient.OSClientV3;
+import org.openstack4j.api.storage.ObjectStorageService;
+import org.openstack4j.model.common.Identifier;
+import org.openstack4j.model.common.Payload;
+import org.openstack4j.openstack.OSFactory;
 
 import it.sogei.ngflow.upload.FlowInfo;
 import it.sogei.ngflow.upload.FlowInfoStorage;
@@ -38,6 +42,13 @@ public class UploadServlet extends HttpServlet {
 	
 	public static final String MYDOMAIN = "http://26.2.234.112:9080";
 
+	
+	//objectStorage
+	//Get these credentials from Bluemix by going to your Object Storage service, and clicking on Service Credentials:
+		private static final String USERNAME = "admin_9757dce54df22d39aebe60045e8949690d5ad7fe";
+		private static final String PASSWORD = "p?v.}M2N*1nQ6YQ(";
+		private static final String DOMAIN_ID = "1191759";
+		private static final String PROJECT_ID = "80e33159813f48739f09570464e566c4";
 
 
 	/*
@@ -76,7 +87,8 @@ public class UploadServlet extends HttpServlet {
 		response.setHeader("Access-Control-Allow-Methods","POST, HEAD, GET, DELETE, PUT, OPTIONS");
 		response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
 		response.setHeader("Access-Control-Max-Age", "86400");
-		System.out.println(">> Do Post v 0.4");
+		
+		System.out.println(">> Do Post v 0.5");
 		
 		System.out.println(">> requestURL: " +request.getRequestURL());
 
@@ -86,36 +98,73 @@ public class UploadServlet extends HttpServlet {
 
 		FlowInfo info = getFlowInfo(request);
 
-		// objectStore modifica
-		//RandomAccessFile raf = new RandomAccessFile(info.flowFilePath, "rw");
-
-		// Seek to position
-		//raf.seek((flowChunkNumber - 1) * info.flowChunkSize);
 
 		// Save to file
-		InputStream is = request.getInputStream();
+		final InputStream is = request.getInputStream();
 		long readed = 0;
 		long content_length = request.getContentLength();
 		byte[] bytes = new byte[1024 * 100];
 		
 		RequestDispatcher rd = request.getRequestDispatcher("objectStorage");
-		request.setAttribute("container", info.flowIdentifier+"-container");
-		request.setAttribute("file", info.flowIdentifier+"."+flowChunkNumber);
+//		request.setAttribute("container", info.flowIdentifier+"-container");
+//		request.setAttribute("file", info.flowIdentifier+"."+flowChunkNumber);
+//		
+//		System.out.println(">>> chiamata servlet object storage");
+//		rd.forward(request,response);
 		
-		System.out.println(">>> chiamata servlet object storage");
-		rd.forward(request,response);
+//////salvataggio su Object Storage
 		
-//		while (readed < content_length) {
-//			int r = is.read(bytes);
-//			if (r < 0) {
-//				break;
-//			}
-//			raf.write(bytes, 0, r);
-//			readed += r;
-//		}
-//		raf.close();
+		ObjectStorageService objectStorage = authenticateAndGetObjectStorageService();
 
-		System.out.println(">>> post chiamatta object storage");
+		//response.setContentType("application/json");
+//		response.setHeader("Cache-control", "no-cache, no-store");
+//		response.setHeader("Pragma", "no-cache");
+//		response.setHeader("Expires", "-1");
+//		response.setHeader("Access-Control-Allow-Origin", "http://upload-frontapp.mybluemix.net");
+//		response.setHeader("Access-Control-Allow-Credentials", "true");
+//		response.setHeader("Access-Control-Allow-Methods","POST, HEAD, GET, DELETE, PUT, OPTIONS");
+//		response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+//		response.setHeader("Access-Control-Max-Age", "86400");
+		
+		System.out.println("---- Storing file in ObjectStorage...");
+
+		String containerName = info.flowIdentifier+"-container";
+
+		String fileName = info.flowIdentifier+"."+flowChunkNumber;
+		
+		System.out.println(">> cantianerName: "+containerName);
+		System.out.println(">> file : " +fileName);
+		
+		if(containerName == null || fileName == null){
+			//No file was specified to be found, or container name is missing
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			System.out.println("Container o fileName null");
+			return;
+		}	
+		
+		if (objectStorage.containers().create(containerName).isSuccess()) {
+			//final InputStream fileStream = is;
+			//System.out.println(">> fileStream : " +fileStream);
+			
+			Payload<InputStream> payload = new PayloadClass(is);
+			
+			objectStorage.objects().put(containerName, fileName, payload);
+			
+			System.out.println(">> Successfully stored file in ObjectStorage!");
+		
+		}
+		else{
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			System.out.println("Errore nella creazione del container: "+containerName );
+			return;
+		}
+		
+		
+ ////////////
+		
+
+
+		System.out.println(">>> post salvataggio object storage");
 		// Mark as uploaded.
 		info.uploadedChunks.add(new FlowInfo.flowChunkNumber(flowChunkNumber));
 		System.out.println("flowChunkNumber:" +flowChunkNumber);
@@ -137,8 +186,8 @@ public class UploadServlet extends HttpServlet {
 			
 
 		} else {
-			response.getWriter().print("Upload");
-			System.out.println("Upload");
+			response.getWriter().print( info.flowIdentifier +">> Uploaded chunk "+flowChunkNumber);
+			System.out.println("Uploaded chunk: " +info.uploadedChunks);
 			System.out.println("info:" +info);
 			System.out.println("inflowFilePathnfo:" +info.flowFilePath);
 
@@ -192,6 +241,42 @@ public class UploadServlet extends HttpServlet {
 		
 		
 		out.close();
+		
+		
+//		String containerName = request.getParameter("container");
+//
+//		String fileName = request.getParameter("file");
+//
+//		if(containerName == null || fileName == null){ //No file was specified to be found, or container name is missing
+//			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+//			System.out.println("Container name or file name was not specified.");
+//			return;
+//		}
+//
+//		SwiftObject pictureObj = objectStorage.objects().get(containerName,fileName);
+//
+//		if(pictureObj == null){ //The specified file was not found
+//			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+//			System.out.println("File not found.");
+//			return;
+//		}
+//
+//		String mimeType = pictureObj.getMimeType();
+//
+//		DLPayload payload = pictureObj.download();
+//
+//		InputStream in = payload.getInputStream();
+//
+//		response.setContentType(mimeType);
+//
+//		OutputStream out = response.getOutputStream();
+//
+//		IOUtils.copy(in, out);
+//		in.close();
+//		out.close();
+//
+//		System.out.println("Successfully retrieved file from ObjectStorage!");
+		
 	}
 
 	private int getflowChunkNumber(HttpServletRequest request) {
@@ -248,5 +333,56 @@ public class UploadServlet extends HttpServlet {
 		return info;
 	}
 
+	
+	private ObjectStorageService authenticateAndGetObjectStorageService() {
+		String OBJECT_STORAGE_AUTH_URL = "https://identity.open.softlayer.com/v3";
+
+		Identifier domainIdentifier = Identifier.byName(DOMAIN_ID);
+
+		System.out.println("Authenticating...");
+
+		OSClientV3 os = OSFactory.builderV3()
+				.endpoint(OBJECT_STORAGE_AUTH_URL)
+				.credentials(USERNAME,PASSWORD, domainIdentifier)
+				.scopeToProject(Identifier.byId(PROJECT_ID))
+				.authenticate();
+
+		System.out.println("Authenticated successfully!");
+		System.out.println(os.objectStorage().containers().list());
+		ObjectStorageService objectStorage = os.objectStorage();
+
+		return objectStorage;
+	}
+	
+	private class PayloadClass implements Payload<InputStream> {
+		private InputStream stream = null;
+
+		public PayloadClass(InputStream stream) {
+			this.stream = stream;
+		}
+
+		@Override
+		public void close() throws IOException {
+			stream.close();
+		}
+
+		@Override
+		public InputStream open() {
+			return stream;
+		}
+
+		@Override
+		public void closeQuietly() {
+			try {
+				stream.close();
+			} catch (IOException e) {
+			}
+		}
+
+		@Override
+		public InputStream getRaw() {
+			return stream;
+		}
+	}
 	
 }
