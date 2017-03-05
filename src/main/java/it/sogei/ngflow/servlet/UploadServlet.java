@@ -68,7 +68,7 @@ public class UploadServlet extends HttpServlet {
     //The following are CORS headers. Max age informs the 
     //browser to keep the results of this call for 1 day.
 	resp.setHeader("Cache-control", "no-cache, no-store");
-    resp.setHeader("Access-Control-Allow-Origin", "http://upload-frontapp.mybluemix.net");
+    resp.setHeader("Access-Control-Allow-Origin", "https://upload-frontapp.mybluemix.net");
     resp.setHeader("Access-Control-Allow-Credentials", "true");
     resp.setHeader("Access-Control-Allow-Methods", "GET, POST");
     resp.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
