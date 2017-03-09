@@ -131,7 +131,7 @@ public class UploadServlet extends HttpServlet {
 
 		String containerName = user+"-container";
 
-		String fileName = info.flowIdentifier+"."+flowChunkNumber;
+		String fileName = info.flowFilename+"."+flowChunkNumber;
 		
 		System.out.println(">> cantianerName: "+containerName);
 		System.out.println(">> file : " +fileName);
