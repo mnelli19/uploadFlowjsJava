@@ -169,7 +169,7 @@ public class UploadServlet extends HttpServlet {
 		// Mark as uploaded.
 		info.uploadedChunks.add(new FlowInfo.flowChunkNumber(flowChunkNumber));
 		System.out.println("flowChunkNumber:" +flowChunkNumber);
-		String archivoFinal = info.checkIfUploadFinished();
+		boolean archivoFinal = info.checkIfUploadFinished();
 		System.out.println("archivoFinal:" +archivoFinal);
 		System.out.println("info:" +info);
 		
@@ -177,7 +177,7 @@ public class UploadServlet extends HttpServlet {
 		response.setContentType("application/json");
 		
 		
-		if (archivoFinal != null) { // Check if all chunks uploaded, and
+		if (archivoFinal) { // Check if all chunks uploaded, and
 			// change filename
 			System.out.println("Ho finito");
 			FlowInfoStorage.getInstance().remove(info);

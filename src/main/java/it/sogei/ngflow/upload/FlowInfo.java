@@ -1,10 +1,6 @@
 package it.sogei.ngflow.upload;
 
-import java.io.File;
 import java.util.HashSet;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class FlowInfo {
@@ -51,13 +47,13 @@ public class FlowInfo {
             return true;
         }
     }
-    public String checkIfUploadFinished() {
+    public boolean checkIfUploadFinished() {
     	System.out.println("--- checkIfUploadFinished ---");
         //check if upload finished
         int count = (int) Math.floor(((double) flowTotalSize) / ((double) flowChunkSize));
         for(int i = 1; i < count + 1; i ++) {
             if (!uploadedChunks.contains(new flowChunkNumber(i))) {
-                return null;
+                return false;
             }
         }
 
@@ -66,7 +62,7 @@ public class FlowInfo {
 //        String new_path = file.getAbsolutePath().substring(0, file.getAbsolutePath().length() - ".temp".length());
 //        file.renameTo(new File(new_path));
 //        return new_path;
-        String out = "OK";
-        return out;
+        //String out = "OK";
+        return true;
     }
 }
