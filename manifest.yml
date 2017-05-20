@@ -1,8 +1,6 @@
 applications:
-- path: target/UploadFlowJsJava.war
-  memory: 512M
-  instances: 1
-  domain: eu-gb.mybluemix.net
-  name: poc-flowjs-java
-  host: poc-flowjs-java
-  disk_quota: 1024M
+  - path: target/UploadFlowJsJava.war
+    memory: 512M
+    instances: 1
+    domain: mybluemix.net
+    name: upload-flowjs-java
