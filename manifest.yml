@@ -1,2 +1,2 @@
 applications:
-  name: upload-flowjs-java
+  - name: upload-flowjs-java
