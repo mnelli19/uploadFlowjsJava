@@ -1,4 +1,5 @@
 applications:
   - name: upload-flowjs-java
+    path: target/UploadFlowJsJava.war
     memory: 512M
     instances: 1
